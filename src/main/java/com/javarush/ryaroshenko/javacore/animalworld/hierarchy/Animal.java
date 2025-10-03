@@ -1,9 +1,11 @@
 package com.javarush.ryaroshenko.javacore.animalworld.hierarchy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public abstract class Animal {
     protected double weight;
-    protected double delta;
-    protected Gender gender;
+    protected double delta = 0.0;
+    protected Gender gender = null;
     protected int speed;
     protected double appetite;
 
@@ -16,6 +18,11 @@ public abstract class Animal {
     }
 
     public Gender getGender() {
-        return gender;
+        if (this.gender == null) {
+            int num = ThreadLocalRandom.current().nextInt(2, 4) - 2;
+            Gender[] genders = {Gender.MALE, Gender.FEMALE};
+            this.gender = genders[num];
+        }
+        return this.gender;
     }
 }
