@@ -12,5 +12,6 @@ public class Wolf extends Predator {
         this.speed = 3;
         this.appetite = 8.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(60.0, 66.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 6);
     }
 }

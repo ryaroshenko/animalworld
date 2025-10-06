@@ -12,5 +12,6 @@ public class Plant extends Animal {
         this.speed = 0;
         this.appetite = 0.0;
         this.pregnantTerm = 5;
+        this.littleAnimalCount = 3;
     }
 }

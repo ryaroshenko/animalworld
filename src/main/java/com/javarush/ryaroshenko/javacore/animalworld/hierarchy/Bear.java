@@ -12,5 +12,6 @@ public class Bear extends Predator {
         this.speed = 2;
         this.appetite = 80.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(180.0, 241.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 5);
     }
 }

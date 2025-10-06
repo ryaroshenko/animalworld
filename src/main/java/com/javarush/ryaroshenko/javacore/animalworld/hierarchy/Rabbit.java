@@ -12,5 +12,6 @@ public class Rabbit extends Herbivorous {
         this.speed = 2;
         this.appetite = 0.45;
         this.pregnantTerm = 32;
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(6, 10);
     }
 }

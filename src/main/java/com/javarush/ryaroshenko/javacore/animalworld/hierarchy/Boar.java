@@ -12,5 +12,6 @@ public class Boar extends Herbivorous {
         this.speed = 2;
         this.appetite = 50.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(100.0, 128.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(4, 9);
     }
 }

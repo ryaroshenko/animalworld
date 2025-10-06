@@ -12,5 +12,6 @@ public class Horse extends Herbivorous {
         this.speed = 4;
         this.appetite = 60.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(335.0, 341.0);
+        this.littleAnimalCount = 1;
     }
 }

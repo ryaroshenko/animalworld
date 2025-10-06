@@ -12,5 +12,6 @@ public class Eagle extends Predator {
         this.speed = 3;
         this.appetite = 1.0;
         this.pregnantTerm = 38;
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 4);
     }
 }

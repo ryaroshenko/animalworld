@@ -12,5 +12,6 @@ public class Sheep extends Herbivorous {
         this.speed = 3;
         this.appetite = 15.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(148.0, 151.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 5);
     }
 }

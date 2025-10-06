@@ -12,5 +12,6 @@ public class Deer extends Herbivorous {
         this.speed = 4;
         this.appetite = 50.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(220.0, 251.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 3);
     }
 }

@@ -12,5 +12,6 @@ public class Boa extends Predator {
         this.speed = 1;
         this.appetite = 3.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(90.0, 101.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(10, 61);
     }
 }

@@ -12,5 +12,6 @@ public class Mouse extends Herbivorous {
         this.speed = 1;
         this.appetite = 0.01;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(16.0, 26.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(3, 15);
     }
 }

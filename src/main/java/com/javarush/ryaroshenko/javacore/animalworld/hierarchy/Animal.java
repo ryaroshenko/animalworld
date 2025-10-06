@@ -1,7 +1,10 @@
 package com.javarush.ryaroshenko.javacore.animalworld.hierarchy;
 
-import com.javarush.ryaroshenko.javacore.animalworld.settings.EatMenu;
+import com.javarush.ryaroshenko.javacore.animalworld.land.*;
+import com.javarush.ryaroshenko.javacore.animalworld.settings.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -24,9 +27,13 @@ public abstract class Animal {
     // Термін вагітності у днях
     protected double pregnantTerm;
     // Крок збільшення вагітності у днях
-    protected double pregnantStep = 1.0 / 24.0;
+    protected double pregnantStep = 4.0 / 24.0;
     // Кількість днів вагітності
     protected double pregnantDays = 0.0;
+    // Кількість звіряток, що може народитися
+    protected int littleAnimalCount;
+
+    private Cell cell = null;
 
     // Повернути назву або піктограму тварини
     public String getSpecies() {
@@ -51,14 +58,15 @@ public abstract class Animal {
     // Повернути ймовірність з'їсти тварину
     public int getEatProbability(Animal animal) {
         int probability = 0;
-        if (animal.getClass().getSimpleName() != getClass().getSimpleName()) {
-            int maxProbability = EatMenu.getInstance().getMaxProbability(getClass().getSimpleName(), animal.getClass().getSimpleName());
-            if (maxProbability > 0) {
-                probability = ThreadLocalRandom.current().nextInt(1, 101);
-                if (probability > maxProbability)
-                    probability = 0;
+        if (animal != null && animal != this)
+            if (!animal.getClass().getName().equals(getClass().getName())) {
+                int maxProbability = EatMenu.getInstance().getMaxProbability(getClass().getName(), animal.getClass().getName());
+                if (maxProbability > 0) {
+                    probability = ThreadLocalRandom.current().nextInt(1, 101);
+                    if (probability > maxProbability)
+                        probability = 0;
+                }
             }
-        }
         return probability;
     }
 
@@ -69,7 +77,7 @@ public abstract class Animal {
 
     // Чи вагітна тварина?
     public boolean isPregnant() {
-        return getGender() == Gender.FEMALE && pregnantDays >= pregnantStep;
+        return !isDead() && getGender() == Gender.FEMALE && pregnantDays >= pregnantStep;
     }
 
     // Чи голодна тварина?
@@ -78,20 +86,41 @@ public abstract class Animal {
     }
 
     public void startPregnant() {
-        if (getGender() == Gender.FEMALE && pregnantDays < pregnantStep)
-            pregnantDays = pregnantStep;
+        if (!isDead() && getGender() == Gender.FEMALE && pregnantDays < pregnantStep && littleAnimalCount > 0 && getCell() != null) {
+            List<Box> list = getCell().getMap().get(getClass().getName());
+            if (list.size() < AnimalsOnCell.getInstance().getCount(getClass().getName())) {
+                pregnantDays = pregnantStep;
+                System.out.println(getSpecies() + " зпарувалися");
+            }
+        }
     }
 
     public void incPregnantDays() {
-        if (isPregnant())
+        if (isPregnant()) {
             pregnantDays += pregnantStep;
+            if (pregnantDays > pregnantTerm)
+                birth();
+            else
+                System.out.println(getSpecies() + " вагітність " + pregnantDays + " днів");
+        }
     }
 
     // Зпаруватися
     public void mate(Animal animal) {
-        if (animal.getClass().getSimpleName() == getClass().getSimpleName() && animal.getGender() != getGender()) {
-            Animal female = getGender() == Gender.FEMALE ? this : animal;
-            female.startPregnant();
+        if (animal != null && animal != this)
+            if (animal.getClass().getName().equals(getClass().getName()) && animal.getGender() != getGender()) {
+                Animal female = getGender() == Gender.FEMALE ? this : animal;
+                female.startPregnant();
+            }
+    }
+
+    // Народити
+    public void birth() {
+        if (!isDead() && getGender() == Gender.FEMALE && pregnantDays > pregnantTerm && littleAnimalCount > 0 && getCell() != null) {
+            for (int i = 1; i <= littleAnimalCount; i++)
+                Animal.newAnimal(getClass(), getCell());
+            pregnantDays = 0.0;
+            System.out.println("Самка " + getSpecies() + " народила " + littleAnimalCount + " звірят");
         }
     }
 
@@ -103,5 +132,53 @@ public abstract class Animal {
                     isDead() ? "Мертва" : isHungry() ? "Голодна" : "Здорова");
         else
             return getSpecies();
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
+
+    public void setCell(Cell cell) {
+        if (!isDead() && this.cell != cell) {
+            if (this.cell != null) {
+                List<Box> list = this.cell.getMap().get(getClass().getName());
+                int i = 0;
+                while (i < list.size()) {
+                    if (list.get(i).getAnimal() == this) {
+                        list.get(i).setAnimal(null);
+                        list.remove(i);
+                    } else
+                        i++;
+                }
+            }
+            this.cell = cell;
+            if (cell != null) {
+                List<Box> list = cell.getMap().get(getClass().getName());
+                list.add(new Box(this));
+            }
+        }
+    }
+
+    public static Class<?> findClass(String className) {
+        Class<?> aClass;
+        try {
+            aClass = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            aClass = null;
+        }
+        return aClass;
+    }
+
+    public static Animal newAnimal(Class<?> animalClass, Cell cell) {
+        Animal animal;
+        try {
+            animal = (Animal) animalClass.getDeclaredConstructor().newInstance();
+            animal.setCell(cell);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException |
+                 IllegalArgumentException |
+                 InvocationTargetException e) {
+            animal = null;
+        }
+        return animal;
     }
 }

@@ -9,22 +9,22 @@ public class AnimalsOnCell {
     private static final AnimalsOnCell ANIMALS_ON_CELL = new AnimalsOnCell();
 
     private Map<String, Integer> map = new HashMap<>(){{
-        put(Wolf.class.getSimpleName(), 30);
-        put(Boa.class.getSimpleName(), 30);
-        put(Fox.class.getSimpleName(), 30);
-        put(Bear.class.getSimpleName(), 5);
-        put(Eagle.class.getSimpleName(), 20);
-        put(Horse.class.getSimpleName(), 20);
-        put(Deer.class.getSimpleName(), 20);
-        put(Rabbit.class.getSimpleName(), 150);
-        put(Mouse.class.getSimpleName(), 500);
-        put(Goat.class.getSimpleName(), 140);
-        put(Sheep.class.getSimpleName(), 140);
-        put(Boar.class.getSimpleName(), 50);
-        put(Buffalo.class.getSimpleName(), 10);
-        put(Duck.class.getSimpleName(), 200);
-        put(Caterpillar.class.getSimpleName(), 1000);
-        put(Plant.class.getSimpleName(), 200);
+        put(Wolf.class.getName(), 30);
+        put(Boa.class.getName(), 30);
+        put(Fox.class.getName(), 30);
+        put(Bear.class.getName(), 5);
+        put(Eagle.class.getName(), 20);
+        put(Horse.class.getName(), 20);
+        put(Deer.class.getName(), 20);
+        put(Rabbit.class.getName(), 150);
+        put(Mouse.class.getName(), 500);
+        put(Goat.class.getName(), 140);
+        put(Sheep.class.getName(), 140);
+        put(Boar.class.getName(), 50);
+        put(Buffalo.class.getName(), 10);
+        put(Duck.class.getName(), 200);
+        put(Caterpillar.class.getName(), 1000);
+        put(Plant.class.getName(), 200);
     }};
 
     private AnimalsOnCell() {
@@ -34,7 +34,11 @@ public class AnimalsOnCell {
         return ANIMALS_ON_CELL;
     }
 
-    public int getCount(String simpleClassName) {
-        return map.getOrDefault(simpleClassName, 0);
+    public int getCount(String className) {
+        return map.getOrDefault(className, 0);
+    }
+
+    public Map<String, Integer> getMap() {
+        return map;
     }
 }

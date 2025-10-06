@@ -12,5 +12,6 @@ public class Duck extends Herbivorous {
         this.speed = 4;
         this.appetite = 0.15;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(26.0, 29.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(10, 16);
     }
 }

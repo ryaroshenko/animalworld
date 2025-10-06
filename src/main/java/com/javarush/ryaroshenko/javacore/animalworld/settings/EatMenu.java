@@ -13,95 +13,95 @@ public class EatMenu {
     private EatMenu() {
         Map<String, Integer> menu;
 
-        map.put(Wolf.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Wolf.class.getSimpleName());
-        menu.put(Horse.class.getSimpleName(), 10);
-        menu.put(Deer.class.getSimpleName(), 15);
-        menu.put(Rabbit.class.getSimpleName(), 60);
-        menu.put(Mouse.class.getSimpleName(), 80);
-        menu.put(Goat.class.getSimpleName(), 60);
-        menu.put(Sheep.class.getSimpleName(), 70);
-        menu.put(Boar.class.getSimpleName(), 15);
-        menu.put(Buffalo.class.getSimpleName(), 10);
-        menu.put(Duck.class.getSimpleName(), 40);
+        map.put(Wolf.class.getName(), new HashMap<>());
+        menu = map.get(Wolf.class.getName());
+        menu.put(Horse.class.getName(), 10);
+        menu.put(Deer.class.getName(), 15);
+        menu.put(Rabbit.class.getName(), 60);
+        menu.put(Mouse.class.getName(), 80);
+        menu.put(Goat.class.getName(), 60);
+        menu.put(Sheep.class.getName(), 70);
+        menu.put(Boar.class.getName(), 15);
+        menu.put(Buffalo.class.getName(), 10);
+        menu.put(Duck.class.getName(), 40);
 
-        map.put(Boa.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Boa.class.getSimpleName());
-        menu.put(Fox.class.getSimpleName(), 15);
-        menu.put(Rabbit.class.getSimpleName(), 20);
-        menu.put(Mouse.class.getSimpleName(), 40);
-        menu.put(Duck.class.getSimpleName(), 10);
+        map.put(Boa.class.getName(), new HashMap<>());
+        menu = map.get(Boa.class.getName());
+        menu.put(Fox.class.getName(), 15);
+        menu.put(Rabbit.class.getName(), 20);
+        menu.put(Mouse.class.getName(), 40);
+        menu.put(Duck.class.getName(), 10);
 
-        map.put(Fox.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Fox.class.getSimpleName());
-        menu.put(Rabbit.class.getSimpleName(), 70);
-        menu.put(Mouse.class.getSimpleName(), 90);
-        menu.put(Duck.class.getSimpleName(), 60);
-        menu.put(Caterpillar.class.getSimpleName(), 40);
+        map.put(Fox.class.getName(), new HashMap<>());
+        menu = map.get(Fox.class.getName());
+        menu.put(Rabbit.class.getName(), 70);
+        menu.put(Mouse.class.getName(), 90);
+        menu.put(Duck.class.getName(), 60);
+        menu.put(Caterpillar.class.getName(), 40);
 
-        map.put(Bear.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Bear.class.getSimpleName());
-        menu.put(Boa.class.getSimpleName(), 80);
-        menu.put(Horse.class.getSimpleName(), 40);
-        menu.put(Deer.class.getSimpleName(), 80);
-        menu.put(Rabbit.class.getSimpleName(), 80);
-        menu.put(Mouse.class.getSimpleName(), 90);
-        menu.put(Goat.class.getSimpleName(), 70);
-        menu.put(Sheep.class.getSimpleName(), 70);
-        menu.put(Boar.class.getSimpleName(), 50);
-        menu.put(Buffalo.class.getSimpleName(), 20);
-        menu.put(Duck.class.getSimpleName(), 10);
+        map.put(Bear.class.getName(), new HashMap<>());
+        menu = map.get(Bear.class.getName());
+        menu.put(Boa.class.getName(), 80);
+        menu.put(Horse.class.getName(), 40);
+        menu.put(Deer.class.getName(), 80);
+        menu.put(Rabbit.class.getName(), 80);
+        menu.put(Mouse.class.getName(), 90);
+        menu.put(Goat.class.getName(), 70);
+        menu.put(Sheep.class.getName(), 70);
+        menu.put(Boar.class.getName(), 50);
+        menu.put(Buffalo.class.getName(), 20);
+        menu.put(Duck.class.getName(), 10);
 
-        map.put(Eagle.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Eagle.class.getSimpleName());
-        menu.put(Fox.class.getSimpleName(), 10);
-        menu.put(Rabbit.class.getSimpleName(), 90);
-        menu.put(Mouse.class.getSimpleName(), 90);
-        menu.put(Duck.class.getSimpleName(), 80);
+        map.put(Eagle.class.getName(), new HashMap<>());
+        menu = map.get(Eagle.class.getName());
+        menu.put(Fox.class.getName(), 10);
+        menu.put(Rabbit.class.getName(), 90);
+        menu.put(Mouse.class.getName(), 90);
+        menu.put(Duck.class.getName(), 80);
 
-        map.put(Horse.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Horse.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Horse.class.getName(), new HashMap<>());
+        menu = map.get(Horse.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Deer.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Deer.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Deer.class.getName(), new HashMap<>());
+        menu = map.get(Deer.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Rabbit.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Rabbit.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Rabbit.class.getName(), new HashMap<>());
+        menu = map.get(Rabbit.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Mouse.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Mouse.class.getSimpleName());
-        menu.put(Caterpillar.class.getSimpleName(), 90);
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Mouse.class.getName(), new HashMap<>());
+        menu = map.get(Mouse.class.getName());
+        menu.put(Caterpillar.class.getName(), 90);
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Goat.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Goat.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Goat.class.getName(), new HashMap<>());
+        menu = map.get(Goat.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Sheep.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Sheep.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Sheep.class.getName(), new HashMap<>());
+        menu = map.get(Sheep.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Boar.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Boar.class.getSimpleName());
-        menu.put(Mouse.class.getSimpleName(), 50);
-        menu.put(Caterpillar.class.getSimpleName(), 90);
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Boar.class.getName(), new HashMap<>());
+        menu = map.get(Boar.class.getName());
+        menu.put(Mouse.class.getName(), 50);
+        menu.put(Caterpillar.class.getName(), 90);
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Buffalo.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Buffalo.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Buffalo.class.getName(), new HashMap<>());
+        menu = map.get(Buffalo.class.getName());
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Duck.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Duck.class.getSimpleName());
-        menu.put(Caterpillar.class.getSimpleName(), 90);
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Duck.class.getName(), new HashMap<>());
+        menu = map.get(Duck.class.getName());
+        menu.put(Caterpillar.class.getName(), 90);
+        menu.put(Plant.class.getName(), 100);
 
-        map.put(Caterpillar.class.getSimpleName(), new HashMap<>());
-        menu = map.get(Caterpillar.class.getSimpleName());
-        menu.put(Plant.class.getSimpleName(), 100);
+        map.put(Caterpillar.class.getName(), new HashMap<>());
+        menu = map.get(Caterpillar.class.getName());
+        menu.put(Plant.class.getName(), 100);
     }
 
     public static EatMenu getInstance() {

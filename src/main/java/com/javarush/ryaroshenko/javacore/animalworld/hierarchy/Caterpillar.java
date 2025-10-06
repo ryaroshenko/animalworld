@@ -12,5 +12,6 @@ public class Caterpillar extends Herbivorous {
         this.speed = 0;
         this.appetite = 0.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(10.0, 15.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(5, 21);
     }
 }

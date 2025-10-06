@@ -12,5 +12,6 @@ public class Goat extends Herbivorous {
         this.speed = 3;
         this.appetite = 10.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(145.0, 156.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(1, 4);
     }
 }

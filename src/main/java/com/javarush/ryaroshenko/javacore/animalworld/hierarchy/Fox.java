@@ -12,5 +12,6 @@ public class Fox extends Predator {
         this.speed = 2;
         this.appetite = 2.0;
         this.pregnantTerm = ThreadLocalRandom.current().nextDouble(49.0, 59.0);
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(4, 7);
     }
 }
