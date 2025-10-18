@@ -4,6 +4,7 @@ import com.javarush.ryaroshenko.javacore.animalworld.land.*;
 import com.javarush.ryaroshenko.javacore.animalworld.settings.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,20 +21,21 @@ public abstract class Animal {
     protected double delta = 0.0;
     // Стать
     protected Gender gender = null;
-    // Швидкість (кількість клітинок на годину)
+    // Швидкість (максимальна кількість клітинок за одне пересування)
     protected int speed;
     // Апетит (кількість їжи до насичення) (кг)
     protected double appetite;
     // Термін вагітності у днях
     protected double pregnantTerm;
     // Крок збільшення вагітності у днях
-    protected double pregnantStep = 4.0 / 24.0;
+    protected double pregnantStep = 1.0;
     // Кількість днів вагітності
     protected double pregnantDays = 0.0;
     // Кількість звіряток, що може народитися
     protected int littleAnimalCount;
 
     private Cell cell = null;
+    private Point newPoint = null;
 
     // Повернути назву або піктограму тварини
     public String getSpecies() {
@@ -55,6 +57,16 @@ public abstract class Animal {
         return this.gender;
     }
 
+    // Повернути швидкість
+    public int getSpeed() {
+        return speed;
+    }
+
+    // Повернути апетит
+    public double getAppetite() {
+        return appetite;
+    }
+
     // Повернути ймовірність з'їсти тварину
     public int getEatProbability(Animal animal) {
         int probability = 0;
@@ -70,6 +82,22 @@ public abstract class Animal {
         return probability;
     }
 
+    // Поїсти
+    public boolean eat(Animal animal) {
+        boolean result = false;
+        if (!isDead() && !isFull() && animal != null) {
+            int probability = getEatProbability(animal);
+            if (probability > 0) {
+                double delta = Math.min(animal.getActualWeight(), getAppetite());
+                changeWeight(delta);
+                animal.changeWeight(-delta);
+                //System.out.println(this + " з'їла " + animal);
+                result = true;
+            }
+        }
+        return result;
+    }
+
     // Чи мертва тварина?
     public boolean isDead() {
         return getActualWeight() <= weight / 2.0;
@@ -80,47 +108,114 @@ public abstract class Animal {
         return !isDead() && getGender() == Gender.FEMALE && pregnantDays >= pregnantStep;
     }
 
-    // Чи голодна тварина?
-    public boolean isHungry() {
-        return !isDead() && getActualWeight() < weight;
+    public boolean isTimeToGiveBirth() {
+        return !isDead() && getGender() == Gender.FEMALE && pregnantDays > pregnantTerm;
     }
 
-    public void startPregnant() {
+    //
+    public boolean isFull() {
+        return getActualWeight() >= weight + getAppetite();
+    }
+
+    public void changeWeight(double delta) {
+        this.delta += delta;
+    }
+
+    public boolean startPregnant() {
+        boolean result = false;
         if (!isDead() && getGender() == Gender.FEMALE && pregnantDays < pregnantStep && littleAnimalCount > 0 && getCell() != null) {
-            List<Box> list = getCell().getMap().get(getClass().getName());
+            List<Animal> list = getCell().getMap().get(getClass().getName());
             if (list.size() < AnimalsOnCell.getInstance().getCount(getClass().getName())) {
                 pregnantDays = pregnantStep;
-                System.out.println(getSpecies() + " зпарувалися");
+                System.out.println(this + " зпарувалися");
+                result = true;
             }
         }
+        return result;
     }
 
     public void incPregnantDays() {
-        if (isPregnant()) {
+        if (isPregnant())
             pregnantDays += pregnantStep;
-            if (pregnantDays > pregnantTerm)
-                birth();
-            else
-                System.out.println(getSpecies() + " вагітність " + pregnantDays + " днів");
-        }
     }
 
     // Зпаруватися
-    public void mate(Animal animal) {
-        if (animal != null && animal != this)
+    public boolean mate(Animal animal) {
+        boolean result = false;
+        if (!isDead() && animal != null && animal != this)
             if (animal.getClass().getName().equals(getClass().getName()) && animal.getGender() != getGender()) {
                 Animal female = getGender() == Gender.FEMALE ? this : animal;
-                female.startPregnant();
+                result = female.startPregnant();
             }
+        return result;
     }
 
     // Народити
-    public void birth() {
+    public List<Animal> birth() {
+        List<Animal> list = null;
         if (!isDead() && getGender() == Gender.FEMALE && pregnantDays > pregnantTerm && littleAnimalCount > 0 && getCell() != null) {
-            for (int i = 1; i <= littleAnimalCount; i++)
-                Animal.newAnimal(getClass(), getCell());
+            list = new ArrayList<>();
+            for (int i = 1; i <= littleAnimalCount; i++) {
+                Animal animal = Animal.newAnimal(getClass());
+                if (animal != null) {
+                    list.add(animal);
+                    animal.setCell(getCell());
+                }
+            }
             pregnantDays = 0.0;
-            System.out.println("Самка " + getSpecies() + " народила " + littleAnimalCount + " звірят");
+            System.out.println("Самка " + this + " народила " + list.size() + " звірят");
+        }
+        return list;
+    }
+
+    // обрати напрямок пересування
+    public void determinePointForMoving() {
+        if (!isDead() && getCell() != null && getSpeed() > 0 && getNewPoint() == null) {
+            int currentSpeed = ThreadLocalRandom.current().nextInt(1, getSpeed() + 1);
+            int vector = ThreadLocalRandom.current().nextInt(1, 9);
+            int x = getCell().getX(), y = getCell().getY();
+            switch (vector) {
+                case 1:
+                    y -= currentSpeed;
+                    break;
+                case 2:
+                    x += currentSpeed;
+                    y -= currentSpeed;
+                    break;
+                case 3:
+                    x += currentSpeed;
+                    break;
+                case 4:
+                    x += currentSpeed;
+                    y += currentSpeed;
+                    break;
+                case 5:
+                    y += currentSpeed;
+                    break;
+                case 6:
+                    x -= currentSpeed;
+                    y += currentSpeed;
+                    break;
+                case 7:
+                    x -= currentSpeed;
+                    break;
+                case 8:
+                    x -= currentSpeed;
+                    y -= currentSpeed;
+                    break;
+                default:
+                    break;
+            }
+            if (y < 0)
+                y += Island.SIZE_Y;
+            if (x >= Island.SIZE_X)
+                x -= Island.SIZE_X;
+            if (y >= Island.SIZE_Y)
+                y -= Island.SIZE_Y;
+            if (x < 0)
+                x += Island.SIZE_X;
+            if (x != getCell().getX() || y != getCell().getY())
+                setNewPoint(new Point(x, y));
         }
     }
 
@@ -129,7 +224,7 @@ public abstract class Animal {
         if (fullInfo)
             return String.format("%s (Вага: %4.3f; Стать: %s%s; Стан: %s)", getSpecies(), getActualWeight(), getGender(),
                     isPregnant() ? " (Вагітна)" : "",
-                    isDead() ? "Мертва" : isHungry() ? "Голодна" : "Здорова");
+                    isDead() ? "Мертва" : "Здорова");
         else
             return getSpecies();
     }
@@ -139,24 +234,16 @@ public abstract class Animal {
     }
 
     public void setCell(Cell cell) {
-        if (!isDead() && this.cell != cell) {
-            if (this.cell != null) {
-                List<Box> list = this.cell.getMap().get(getClass().getName());
-                int i = 0;
-                while (i < list.size()) {
-                    if (list.get(i).getAnimal() == this) {
-                        list.get(i).setAnimal(null);
-                        list.remove(i);
-                    } else
-                        i++;
-                }
-            }
+        if (!isDead() && this.cell != cell)
             this.cell = cell;
-            if (cell != null) {
-                List<Box> list = cell.getMap().get(getClass().getName());
-                list.add(new Box(this));
-            }
-        }
+    }
+
+    public Point getNewPoint() {
+        return newPoint;
+    }
+
+    public void setNewPoint(Point newPoint) {
+        this.newPoint = newPoint;
     }
 
     public static Class<?> findClass(String className) {
@@ -169,11 +256,10 @@ public abstract class Animal {
         return aClass;
     }
 
-    public static Animal newAnimal(Class<?> animalClass, Cell cell) {
+    public static Animal newAnimal(Class<?> animalClass) {
         Animal animal;
         try {
             animal = (Animal) animalClass.getDeclaredConstructor().newInstance();
-            animal.setCell(cell);
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException |
                  IllegalArgumentException |
                  InvocationTargetException e) {

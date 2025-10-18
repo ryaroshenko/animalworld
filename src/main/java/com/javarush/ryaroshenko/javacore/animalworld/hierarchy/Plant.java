@@ -11,7 +11,7 @@ public class Plant extends Animal {
         this.weight = 1.0;
         this.speed = 0;
         this.appetite = 0.0;
-        this.pregnantTerm = 5;
-        this.littleAnimalCount = 3;
+        this.pregnantTerm = 1;
+        this.littleAnimalCount = ThreadLocalRandom.current().nextInt(20, 100);
     }
 }
